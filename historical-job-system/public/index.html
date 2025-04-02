@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Form</title>
+</head>
+<body>
+    <form id="jobForm">
+        <label for="claimNumber">Claim Number:</label>
+        <input type="text" id="claimNumber" name="claimNumber" required><br>
+
+        <label for="policyNumber">Policy Number:</label>
+        <input type="text" id="policyNumber" name="policyNumber" required><br>
+
+        <label for="lossDate">Loss Date:</label>
+        <input type="date" id="lossDate" name="lossDate" required><br>
+
+        <h3>Insured Information</h3>
+        <label for="insuredName">Name:</label>
+        <input type="text" id="insuredName" name="insuredName" required><br>
+
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="street" required><br>
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required><br>
+
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state" required><br>
+
+        <label for="zip">ZIP:</label>
+        <input type="text" id="zip" name="zip" required><br>
+
+        <h3>Estimate Line Item</h3>
+        <label for="code">Code:</label>
+        <input type="text" id="code" name="code" required><br>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required><br>
+
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required><br>
+
+        <label for="uom">Unit of Measure:</label>
+        <input type="text" id="uom" name="uom" required><br>
+
+        <label for="unitPrice">Unit Price:</label>
+        <input type="number" id="unitPrice" name="unitPrice" step="0.01" required><br>
+
+        <label for="extension">Extension:</label>
+        <input type="number" id="extension" name="extension" step="0.01" required><br>
+
+        <label for="categoryCode">Category Code:</label>
+        <input type="text" id="categoryCode" name="categoryCode" required><br>
+
+        <button type="submit">Submit</button>
+    </form>
+<!-- 新增按钮和显示数据的区域 -->
+<button id="showDataButton">Show All Data</button>
+<div id="dataDisplay" style="margin-top: 20px; border: 1px solid #ccc; padding: 10px;"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

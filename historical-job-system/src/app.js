@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import estimateRoutes from './routes/estimateRoutes.js';
+
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import bodyParser from 'body-parser';
@@ -14,8 +14,10 @@ app.use(bodyParser.json()); // 解析 JSON 请求体
 app.use('/api/xactanalysis', xactAnalysisRoutes);
 // 提供静态文件服务
 app.use(express.static('public'));// 挂载 XactAnalysis 路由
-// 路由
-app.use('/api', estimateRoutes);
+import claimRoutes from './routes/claimRoutes.js';
+
+// 挂载 Claim 路由
+app.use('/api', claimRoutes);
 
 const PORT=3000;
 app.get('/', (req, res) => {
@@ -30,8 +32,7 @@ app.get('/', (req, res) => {
         },
     });
 });
-// 路由
-app.use('/api', estimateRoutes);
+
 // Swagger 配置
 const swaggerOptions = {
     definition: {

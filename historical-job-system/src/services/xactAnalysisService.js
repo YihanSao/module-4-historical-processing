@@ -1,31 +1,36 @@
 import axios from 'axios';
-
+import dotenv from 'dotenv';
+dotenv.config();
 import { create } from 'xmlbuilder2';
 class XactAnalysisService {
     constructor() {
         this.apiClient = axios.create({
-            baseURL: process.env.XACT_ANALYSIS_API_URL,
+            baseURL: "http://localhost:4000",
             headers: {
                 'Authorization': `Bearer ${process.env.XACT_ANALYSIS_API_KEY}`,
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/xml',
             },
         });
     }
 
-    // Send job data to XactAnalysis
     async sendJobData(jobXML) {
+        
         try {
+            console.log('Sending to URL:', this.apiClient.defaults.baseURL + '/jobs');
+            console.log('Job XML:', jobXML);
+    
             const response = await this.apiClient.post('/jobs', jobXML, {
                 headers: {
-                    'Content-Type': 'application/xml', // 发送 XML 数据
+                    'Content-Type': 'application/xml',
                 },
             });
             return response.data;
         } catch (error) {
+            console.log("check:  ",this.apiClient.defaults.baseURL);
             if (error.response) {
                 console.error('Mock API responded with an error:', error.response.status, error.response.data);
             } else {
-                console.error('Error sending job data:', error.message);
+                console.error('Error sending11 job data:', error.message);
             }
             throw new Error('Error sending job data to Mock API: ' + error.message);
         }

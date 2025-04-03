@@ -3,15 +3,41 @@ import XactAnalysisService from '../services/xactAnalysisService.js';
 
 const router = express.Router();
 const xactService = new XactAnalysisService();
-
+import pool from '../models/database.js';
 // 路由：发送作业数据到 XactAnalysis
-router.post('/jobs', (req, res) => {
+router.post('/jobs', async (req, res) => {
     try {
         const jobData = req.body;
-        console.log('Received job data:', jobData);
-
+        console.log('Received job data11:', jobData);
+        
+        const claimData=jobData;
+        const query = `
+            INSERT INTO claims (
+                claim_number, policy_number, loss_date,
+                insured_name, insured_street, insured_city, insured_state, insured_zip
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            RETURNING *;
+        `;
+        const values = [
+            claimData.claimNumber,
+            claimData.policyNumber,
+            claimData.lossDate,
+            claimData.insured.name,
+            claimData.insured.address.street,
+            claimData.insured.address.city,
+            claimData.insured.address.state,
+            claimData.insured.address.zip,
+        ];
+        const result = await pool.query(query, values);
         // 模拟成功响应
-        res.status(200).json({
+           // 查询 claims 表中的记录数量
+           const countQuery = 'SELECT COUNT(*) FROM claims;';
+           const countResult = await pool.query(countQuery);
+           const claimsCount = countResult.rows[0].count;
+   
+           console.log(`Total number of records in claims table: ${claimsCount}`);
+        
+           res.status(200).json({
             message: 'Job data received successfully',
             data: jobData,
         });

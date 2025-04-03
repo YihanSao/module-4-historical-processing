@@ -85,4 +85,44 @@ pool.on('error', (err) => {
         console.error('Error checking or creating table:', error.message);
     }
 })();
+
+
+// 检查并创建 claims 表
+(async () => {
+    try {
+        const tableCheckResult = await pool.query(`
+            SELECT EXISTS (
+                SELECT 1
+                FROM information_schema.tables
+                WHERE table_schema = 'public'
+                AND table_name = 'claims'
+            );
+        `);
+
+        const tableExists = tableCheckResult.rows[0].exists;
+
+        if (!tableExists) {
+            console.log('Table "claims" does not exist. Creating it now...');
+            await pool.query(`
+                CREATE TABLE claims (
+                    id SERIAL PRIMARY KEY,
+                    claim_number VARCHAR(255),
+                    policy_number VARCHAR(255),
+                    loss_date DATE,
+                    insured_name VARCHAR(255),
+                    insured_street VARCHAR(255),
+                    insured_city VARCHAR(255),
+                    insured_state VARCHAR(255),
+                    insured_zip VARCHAR(255),
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+            `);
+            console.log('Table "claims" created successfully.');
+        } else {
+            console.log('Table "claims" already exists.');
+        }
+    } catch (error) {
+        console.error('Error checking or creating table "claims":', error.message);
+    }
+})();
 export default pool;

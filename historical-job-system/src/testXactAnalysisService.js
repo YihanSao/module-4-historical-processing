@@ -3,39 +3,61 @@ import XactAnalysisService from './services/xactAnalysisService.js';
 
 // 创建 Axios 客户端
 const apiClient = axios.create({
-    baseURL: 'https://jsonplaceholder.typicode.com', // Mock API
+    baseURL: 'http://localhost:4000', // Mock API
     headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/xml',
     },
 });
 
 // 初始化 XactAnalysisService
 const xactService = new XactAnalysisService(apiClient);
-router.post('/jobs/send', async (req, res) => {
-    try {
-        const jobData = req.body; // 从请求体中获取 jobData
-        const response = await xactService.sendJobData(jobData);
-        res.status(200).json({
-            message: 'Job data sent successfully',
-            data: response,
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+
 (async () => {
     try {
+        // 测试数据
         const jobData = {
-            title: 'Test job data', // Use fields supported by the mock API
-            body: 'This is a test job description',
-            userId: 1,
+            claimNumber: 'TEST12345',
+            policyNumber: 'POLICY12345',
+            lossDate: '2025-04-01',
+            insured: {
+                name: 'John Doe',
+                address: {
+                    street: '123 Main St',
+                    city: 'Springfield',
+                    state: 'IL',
+                    zip: '62701',
+                },
+            },
+            estimate: {
+                lineItems: [
+                    {
+                        code: 'ITEM001',
+                        description: 'Drywall repair',
+                        quantity: 10,
+                        uom: 'SQFT',
+                        unitPrice: 15.5,
+                        extension: 155,
+                        categoryCode: 'DRY',
+                    },
+                ],
+            },
         };
 
-        console.log('Sending job data...');
-        const sendResponse = await xactService.sendJobData(jobData);
+        console.log('--- Starting Tests ---');
+
+        // 1. 测试 generateJobXML
+        console.log('1. Testing generateJobXML...');
+        const jobXML = xactService.generateJobXML(jobData);
+        console.log('Generated XML:', jobXML);
+
+        // 2. 测试 sendJobData
+        console.log('2. Testing sendJobData...');
+        console.log('Base URL:', apiClient.defaults.baseURL); // 打印 baseURL
+        const sendResponse = await xactService.sendJobData(jobXML);
         console.log('Job data sent successfully:', sendResponse);
+
+        console.log('--- Tests Completed ---');
     } catch (error) {
-        console.error('Error:', error.message);
+        console.error('Error during tests:', error.message);
     }
 })();
-export default router;

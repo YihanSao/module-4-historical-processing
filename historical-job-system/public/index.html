@@ -56,9 +56,29 @@
 
         <button type="submit">Submit</button>
     </form>
-<!-- 新增按钮和显示数据的区域 -->
-<button id="showDataButton">Show All Data</button>
-<div id="dataDisplay" style="margin-top: 20px; border: 1px solid #ccc; padding: 10px;"></div>
+    <!-- Delete 功能 -->
+    <h3>Delete Claim</h3>
+    <label for="deleteClaimNumber">Claim Number:</label>
+    <input type="text" id="deleteClaimNumber" name="deleteClaimNumber" placeholder="Enter Claim Number" required><br>
+    <button id="deleteButton">Delete Claim</button>
+
+<!-- Update 功能 -->
+<h3>Update Claim</h3>
+<label for="updateClaimNumber">Claim Number:</label>
+<input type="text" id="updateClaimNumber" name="updateClaimNumber" placeholder="Enter Claim Number" required><br>
+
+<label for="updatePolicyNumber">Policy Number:</label>
+<input type="text" id="updatePolicyNumber" name="updatePolicyNumber" placeholder="Enter New Policy Number"><br>
+
+<label for="updateLossDate">Loss Date:</label>
+<input type="date" id="updateLossDate" name="updateLossDate" placeholder="Enter New Loss Date"><br>
+
+<button id="updateButton">Update Claim</button>
+
+    <!-- Show All Data 功能 -->
+    <h3>Show All Claims</h3>
+    <button id="showDataButton">Show All Data</button>
+    <div id="dataDisplay" style="margin-top: 20px; border: 1px solid #ccc; padding: 10px;"></div>
 
     <script src="script.js"></script>
 </body>

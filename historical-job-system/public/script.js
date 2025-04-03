@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             if(check.ok){
                 const result = await check.json();
-                alert('Job data sent successfully: ' + JSON.stringify(result));
+                alert('Job data sent successfully1111: ' + JSON.stringify(result));
             }
             else{
                 alert('Error sending job data: ' + error.message);

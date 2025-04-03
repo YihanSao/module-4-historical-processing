@@ -1,9 +1,9 @@
 import pool from '../models/database.js';
 
 class ClaimModel {
-    // 创建新记录
+    // create new item
     static async createClaim(claimData) {
-        console.log('Received claim data:', claimData);
+        console.log('Received claim data222:', claimData);
         const query = `
             INSERT INTO claims (
                 claim_number, policy_number, loss_date,
@@ -22,24 +22,34 @@ class ClaimModel {
             claimData.insured.address.zip,
         ];
         const result = await pool.query(query, values);
+        // debug part check the number of records in claims table.
+        const countQuery = 'SELECT COUNT(*) FROM claims;';
+        const countResult = await pool.query(countQuery);
+        const claimsCount = countResult.rows[0].count;       
+        console.log(`Tota number of records in claims table: ${claimsCount}`);
+                
+        
         return result.rows[0];
     }
 
-    // 获取所有记录
+    // get all records
     static async getAllClaims() {
         const query = 'SELECT * FROM claims ORDER BY created_at DESC;';
         const result = await pool.query(query);
         return result.rows;
     }
-    // 删除记录
+
+
+
+    // delete record
     static async deleteClaim(claimNumber) {
         const query = 'DELETE FROM claims WHERE claim_number = $1 RETURNING *;';
         const values = [claimNumber];
         const result = await pool.query(query, values);
-        return result.rows[0]; // 返回被删除的记录
+        return result.rows[0]; // return deleted record
     }
 
-    // 更新记录
+    // update record
     static async updateClaim(claimNumber, updatedData) {
         const query = `
             UPDATE claims
@@ -53,7 +63,7 @@ class ClaimModel {
             claimNumber,
         ];
         const result = await pool.query(query, values);
-        return result.rows[0]; // 返回更新后的记录
+        return result.rows[0]; // return updated record
     }
 }
 

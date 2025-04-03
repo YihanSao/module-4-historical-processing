@@ -3,10 +3,10 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const { Pool } = pkg; // 从默认导入中解构出 Pool
+const { Pool } = pkg; 
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL, // 从 .env 文件中读取 DATABASE_URL
+    connectionString: process.env.DATABASE_URL, // From .env get DATABASE_URL
 });
 
 pool.on('connect', () => {
@@ -21,6 +21,7 @@ pool.on('error', (err) => {
     console.error('Unexpected error on idle client', err);
     process.exit(-1);
 });
+//check connnection
 (async () => {
     try {
         const result = await pool.query('SELECT NOW()');

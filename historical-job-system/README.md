@@ -50,7 +50,9 @@ historical-job-system
 
 4. **Start the application**:
    ```
-   npm start
+   node src/app.js
+   node node mockApi.js
+   npm run dev
    ```
 
 ## Usage
